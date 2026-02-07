@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #ffe6e6; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 90%;
+            width: 450px; 
+            position: relative;
+            min-height: 450px; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            
+            /* SMOOTH TRANSITIONS */
+            transition: opacity 0.6s ease-in-out, transform 0.6s ease;
+            opacity: 1;
+        }
+
+        h1 {
+            color: #ff4d4d;
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            max-height: 350px; 
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* --- COLLAGE STYLES --- */
+        .collage-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px; 
+            margin-bottom: 20px;
+        }
+        
+        .collage-container img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 0;
+            border: 3px solid #ff4d4d;
+            border-radius: 10px;
+        }
+
+        .collage-container img:nth-child(2) {
+            transform: scale(1.15); 
+            z-index: 10;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .emoji-big {
+            font-size: 80px;
+            margin: 20px 0;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        button {
+            padding: 12px 35px; 
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .btn-yes {
+            background-color: #ff4d4d;
+            color: white;
+        }
+
+        .btn-yes:hover {
+            background-color: #e60000;
+            transform: scale(1.05);
+        }
+
+        .btn-no {
+            background-color: #ADD8E6; 
+            color: black;
+            position: relative; 
+        }
+
+        .moving {
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="content">
+        </div>
+
+    <script>
+        const contentDiv = document.getElementById('content');
+
+        // --- SMART TRANSITION FUNCTION ---
+        function transitionTo(htmlContent, nextStepFn, delay) {
+            contentDiv.style.opacity = '0';
+            contentDiv.style.transform = 'scale(0.95)'; 
+
+            setTimeout(() => {
+                contentDiv.innerHTML = htmlContent;
+                contentDiv.style.opacity = '1';
+                contentDiv.style.transform = 'scale(1)';
+
+                if (nextStepFn && delay) {
+                    setTimeout(nextStepFn, delay);
+                }
+
+            }, 600); 
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function moveButton(btn) {
+            btn.classList.add('moving');
+            const container = document.querySelector('.container');
+            const containerRect = container.getBoundingClientRect();
+            const btnRect = btn.getBoundingClientRect();
+
+            const maxX = containerRect.width - btnRect.width - 20; 
+            const maxY = containerRect.height - btnRect.height - 20;
+
+            const randomX = getRandomInt(0, maxX);
+            const randomY = getRandomInt(0, maxY);
+
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
+        }
+
+        // --- STEP 1 ---
+        function showStep1() {
+            contentDiv.innerHTML = `
+                <h1>Will you be my valentine 🌻</h1>
+                <div class="buttons">
+                    <button class="btn-yes" onclick="showStep2()">Yes</button>
+                    <button class="btn-no" onmouseover="moveButton(this)" ontouchstart="moveButton(this)">No</button>
+                </div>
+            `;
+        }
+
+        // --- STEP 2 ---
+        function showStep2() {
+            const html = `
+                <img src="Screenshot 2026-02-07 233806 (1).png" alt="Cute Kitten">
+                <h1>Thank You Love</h1>
+            `;
+            transitionTo(html, showStep3, 3000);
+        }
+
+        // --- STEP 3 ---
+        function showStep3() {
+            const html = `
+                <h1>What You want to do in Valentine?</h1>
+                <div class="buttons">
+                    <button class="btn-yes" onclick="showStep4()">Get intimate with me</button>
+                    <button class="btn-no" onmouseover="moveButton(this)" ontouchstart="moveButton(this)">Spent quality time with me</button>
+                </div>
+            `;
+            transitionTo(html);
+        }
+
+        // --- STEP 4 ---
+        function showStep4() {
+            const html = `
+                <h1>Thank You</h1>
+                <div class="emoji-big">😛</div>
+            `;
+            transitionTo(html, showStep5, 3000);
+        }
+
+        // --- STEP 5 ---
+        function showStep5() {
+            const html = `
+                <h1>Will you give me your heart completely?</h1>
+                <div class="buttons">
+                    <button class="btn-yes" onclick="showStep6()">Yes</button>
+                    <button class="btn-no" onmouseover="moveButton(this)" ontouchstart="moveButton(this)">No</button>
+                </div>
+            `;
+            transitionTo(html);
+        }
+
+        // --- STEP 6 ---
+        function showStep6() {
+            const html = `
+                <h1>Good girl, You don't have any other options!</h1>
+                <div class="emoji-big">🙂‍↔️</div>
+            `;
+            transitionTo(html, showStep7, 3000);
+        }
+
+        // --- STEP 7 ---
+        function showStep7() {
+            const html = `
+                <h1>Do you love me?</h1>
+                <div class="buttons">
+                    <button class="btn-yes" onclick="showStep8()">Yes</button>
+                    <button class="btn-no" onclick="showLiarPage()">No</button>
+                </div>
+            `;
+            transitionTo(html);
+        }
+
+        // --- STEP 7b: LIAR PAGE ---
+        function showLiarPage() {
+            const html = `
+                <img src="Screenshot 2026-02-07 233806.jpg" onerror="this.onerror=null; this.src='Screenshot 2026-02-07 233806.png'" alt="Grumpy Cat">
+                <h1>You Lier!!</h1>
+            `;
+            transitionTo(html, showStep7, 2000); 
+        }
+
+        // --- STEP 8 ---
+        function showStep8() {
+            const html = `
+                <img src="The Happiest Smiling Cat In The Universe.jpg" onerror="this.onerror=null; this.src='The Happiest Smiling Cat In The Universe.png'" alt="Happy Cat">
+                <h1>Good Girl! I Love You Moreeee!!</h1>
+            `;
+            transitionTo(html, showStep9, 3000);
+        }
+
+        // --- STEP 9 ---
+        function showStep9() {
+            const html = `
+                <h1>Will you marry me?</h1>
+                <div class="buttons">
+                    <button class="btn-yes" onclick="showFinal()">Yes</button>
+                    <button class="btn-no" onmouseover="moveButton(this)" ontouchstart="moveButton(this)">No</button>
+                </div>
+            `;
+            transitionTo(html);
+        }
+
+        // --- STEP 10 ---
+        function showFinal() {
+            const html = `
+                <h1>Thank You for your Answer mam. You are gonna marry me soon.</h1>
+                <p>Be ready for our Wedding Night Darling.</p>
+                <div class="emoji-big">🌻🌻</div>
+            `;
+            // CHANGED: Now skips Step 11 and goes directly to Step 12
+            transitionTo(html, showStep12, 8000);
+        }
+
+        // --- STEP 11 REMOVED --- 
+
+        // --- STEP 12 ---
+        function showStep12() {
+            const html = `
+                <img src="IMG_20250620_183912.jpg" onerror="this.onerror=null; this.src='IMG_20250620_183912.jpeg'" alt="Walking Together">
+                <h1>Want to end this life watching you still living with me a Happy Life</h1>
+            `;
+            transitionTo(html, showStep13, 8000);
+        }
+
+        // --- STEP 13 ---
+        function showStep13() {
+            const html = `
+                <img src="IMG_20250709_184125.jpg" onerror="this.onerror=null; this.src='IMG_20250709_184125.jpeg'" alt="Car Selfie">
+                <h1>Hope The God Will Accept Us And Will Give Us the Opportunity To Live The Rest Of The Life Togather!</h1>
+            `;
+            transitionTo(html, showStep14, 12000);
+        }
+
+        // --- STEP 14: Final Collage ---
+        function showStep14() {
+            const html = `
+                <div class="collage-container">
+                    <img src="IMG_0300.jpg" onerror="this.onerror=null; this.src='IMG_0300.jpeg'" alt="Love 1">
+                    <img src="IMG_0308.jpg" onerror="this.onerror=null; this.src='IMG_0308.jpeg'" alt="Proposal">
+                    <img src="IMG_0292.jpg" onerror="this.onerror=null; this.src='IMG_0292.jpeg'" alt="Love 3">
+                </div>
+                <h1>HAPPY VALENTINES DAY BABY!❤️🌹</h1>
+            `;
+            transitionTo(html);
+        }
+
+        showStep1();
+    </script>
+</body>
+</html>
